@@ -45,7 +45,7 @@ public class LineFollowerP {
 		LCD.drawString("Presione ENTER", 0, 1);
 		LCD.drawString("para comenzar", 0, 2);
 
-		//Button.ENTER.waitForPressAndRelease();
+		Button.ENTER.waitForPressAndRelease();
 
 		LCD.drawString("Presione ESCAPE", 0, 0);
 		LCD.drawString("para terminar ", 0, 1);
