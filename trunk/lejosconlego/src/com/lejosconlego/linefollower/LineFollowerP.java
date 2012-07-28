@@ -24,23 +24,23 @@ import lejos.nxt.SensorPort;
 public class LineFollowerP {
 	public static void main (String[] aArg) throws Exception {
 
-		float line = 0;		// lectura del sensor de luz sobre la línea
-		float mat = 0;		// lectura del sensor de luz fuera de la línea
-		float maxPower=0;	// velocidad (grados por segundo) máxima de los motores
+		float linea = 0;		// lectura del sensor de luz sobre la línea
+		float suelo = 0;		// lectura del sensor de luz fuera de la línea
+		float velMax=0;	// velocidad (grados por segundo) máxima de los motores
 		float kp = 0;		// constante de proporcionalidad
-		float turn;			
+		float ajuste;			
 		float error;		
 		float offset;		
 		
-		ColorSensor light = new ColorSensor(SensorPort.S3);
-		light.setFloodlight(true);
+		ColorSensor lSensor = new ColorSensor(SensorPort.S3);
+		lSensor.setFloodlight(true);
 				
 		/* Parámetros a determinar antes de comenzar: */
-		line = 600;		
-		mat = 240;		
-		maxPower=50;	
-		offset  = (line + mat)/2;
-		kp = maxPower/(mat-offset);
+		linea = 600;		
+		suelo = 240;		
+		velMax=50;	
+		offset  = (linea + suelo)/2;
+		kp = velMax/(suelo-offset);
 	
 		LCD.drawString("Presione ENTER", 0, 1);
 		LCD.drawString("para comenzar", 0, 2);
@@ -51,10 +51,10 @@ public class LineFollowerP {
 		LCD.drawString("para terminar ", 0, 1);
 
 		while (!Button.ESCAPE.isDown()){
-			error = light.getRawLightValue() - offset;
-			turn = kp * error;
-			Motor.B.setSpeed(Math.round(maxPower + turn));
-			Motor.C.setSpeed(Math.round(maxPower - turn));
+			error = lSensor.getRawLightValue() - offset;
+			ajuste = kp * error;
+			Motor.B.setSpeed(Math.round(velMax + ajuste));
+			Motor.C.setSpeed(Math.round(velMax - ajuste));
 			Motor.B.forward();
 			Motor.C.forward();	
 		}
